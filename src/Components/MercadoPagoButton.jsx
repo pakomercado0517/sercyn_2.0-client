@@ -1,9 +1,8 @@
 import React, { useEffect } from "react";
 import useScript from "../Hooks/useScript";
-const { REACT_APP_MERCADO_PAGO_PUBLIC_KEY } = process.env;
+const { VITE_APP_MERCADO_PAGO_PUBLIC_KEY } = import.meta.env;
 
-function MercadoPagoButton({ handleClick, buttonText, mp_id }) {
-  var mp;
+function MercadoPagoButton({ buttonText, mp_id }) {
   //mercado pago settings...
 
   const { MercadoPago } = useScript(
@@ -17,8 +16,9 @@ function MercadoPagoButton({ handleClick, buttonText, mp_id }) {
 
   useEffect(() => {
     const createCheckoutButton = async () => {
+      let mp;
       if (MercadoPago) {
-        mp = new MercadoPago(REACT_APP_MERCADO_PAGO_PUBLIC_KEY, {
+        mp = new MercadoPago(VITE_APP_MERCADO_PAGO_PUBLIC_KEY, {
           locale: "es-MX",
         });
       }
@@ -30,18 +30,14 @@ function MercadoPagoButton({ handleClick, buttonText, mp_id }) {
           container: `.mp_button${mp_id}`,
           label: buttonText,
         },
-        theme: {
-          elementsColor: "#007ea7",
-        },
       });
     };
     createCheckoutButton();
-  }, [MercadoPago, mp, mp_id]);
+  }, [MercadoPago, mp_id, buttonText]);
 
-  console.log(MercadoPago ? true : false);
-  console.log("mp", mp);
-  console.log("MercadoPago", MercadoPago);
-  return <div className={`mp_button${mp_id}`} onClick={handleClick}></div>;
+  // console.log(MercadoPago ? true : false);
+  // console.log("MercadoPago", MercadoPago);
+  return <div className={`mp_button${mp_id} `}></div>;
 }
 
 export default MercadoPagoButton;

@@ -1,8 +1,8 @@
 import axios from "axios";
-const { REACT_APP_BACKEND } = process.env;
+const { VITE_APP_BACKEND } = import.meta.env;
 
 const constants = {
-  localhost: REACT_APP_BACKEND,
+  localhost: VITE_APP_BACKEND,
 };
 
 export const GET_ALL_BOATS = "GET_ALL_BOATS";
@@ -23,7 +23,9 @@ export const CLIENT_LOGIN = "CLIENT_LOGIN";
 export const CLIENT_LOGOUT = "CLIENT_LOGOUT";
 export const GET_CLIENT_LOGGED = "GET_CLIENT_LOGGED";
 export const CLIENT_DATA = "CLIENT_DATA";
-export const NEW_TRANSACTION = "NEW_TRNASACTION";
+export const UPDATE_CLIENT_DATA = "UPDATE_CLIENT_DATA";
+export const NEW_TRANSACTION = "NEW_TRANSACTION";
+export const UPDATE_TRANSACTION = "UPDATE_TRANSACTION";
 export const PAYMENT_DATA = "PAYMENT_DATA";
 export const UPDATE_PAYMENT_DATA = "UPDATE_PAYMENT_DATA";
 export const UPDATE_STATUS_PAYMENT = "UPDATE_STATUS_PAYMENT";
@@ -31,6 +33,15 @@ export const NAVIGATION_URL = "NAVIGATION_URL";
 export const NEW_RATING = "NEW_RATING";
 export const NEW_USER = "NEW_USER";
 export const LOGIN_USER = "LOGIN_USER";
+export const SERVICE_ORDER = "SERVICE_ORDER";
+export const NEW_PAYMENT = "NEW_PAYMENT";
+export const PAYMETN_COLLECTION_BY_ID = "PAYMETN_COLLECTION_BY_ID";
+export const REMOVE_PAYMENT_COLLECTION = "REMOVE_PAYMENT_COLLECTION";
+export const REMOVE_PAYMENT_DATA = "REMOVE_PAYMENT_DATA";
+export const CLEAR_CLIENTLOGGED_FROM_STORE = "CLEAR_CLIENTLOGGED_FROM_STORE";
+export const CLIENT_GOOGLE_SIGNUP = "CLIENT_GOOGLE_SIGNUP";
+export const CLIENT_GOOGLE_LOGIN = "CLIENT_GOOGLE_LOGIN";
+export const UPDATE_CLIENT_PHOTO = "UPDATE_CLIENT_PHOTO";
 
 export const getAllBoats = () => async (dispatch) => {
   const allBoats = await axios.get(`${constants.localhost}/boat`);
@@ -277,16 +288,45 @@ export const getClientData = (id) => async (dispatch) => {
   }
 };
 
+export const updateClientData = (id, data) => async (dispatch) => {
+  const client = await axios.put(
+    `${constants.localhost}/client/update/${id}`,
+    data
+  );
+  try {
+    dispatch({
+      type: UPDATE_CLIENT_DATA,
+      payload: client.data,
+    });
+  } catch (error) {
+    console.log(error.response);
+  }
+};
+
 export const newTransaction = (data, id) => async (dispatch) => {
   try {
     const newTransaction = await axios.post(
       `${constants.localhost}/transaction/${id}`,
       data
     );
-    console.log("response: ", newTransaction.data);
     dispatch({
       type: NEW_TRANSACTION,
       payload: newTransaction.data,
+    });
+  } catch (error) {
+    console.log(error.response);
+  }
+};
+
+export const updateTransaction = (data) => async (dispatch) => {
+  try {
+    const transaction = await axios.put(
+      `${constants.localhost}/transaction/update/${data.id}`,
+      data
+    );
+    dispatch({
+      type: UPDATE_TRANSACTION,
+      payload: transaction.data,
     });
   } catch (error) {
     console.log(error.response);
@@ -315,7 +355,6 @@ export const getPaymentData = (preference, token) => async (dispatch) => {
 
 export const updatePaymentData = (collection) => async (dispatch) => {
   try {
-    console.log("collection", collection);
     await axios.put(
       `${constants.localhost}/payments_collection/update/collection`,
       collection
@@ -384,6 +423,109 @@ export const loginUser = (data) => async (dispatch) => {
   const user = await axios.post(`${constants.localhost}/user/login`, data);
   try {
     window.localStorage.setItem("clientLogged", JSON.stringify(user.data));
+  } catch (error) {
+    console.log(error.response);
+  }
+};
+
+export const service_order = (data) => (dispatch) => {
+  dispatch({
+    type: SERVICE_ORDER,
+    payload: data,
+  });
+};
+
+export const newPayment = (newPayment) => async (dispatch) => {
+  try {
+    const payment = await axios.post(
+      `${constants.localhost}/payments_collection/addCollection`,
+      newPayment
+    );
+    dispatch({
+      type: NEW_PAYMENT,
+      payload: payment.data,
+    });
+  } catch (error) {
+    console.log(error.response);
+  }
+};
+export const paymentCollectionById = (preferenceId) => async (dispatch) => {
+  const collection = await axios.get(
+    `${constants.localhost}/payments_collection/getCollection/${preferenceId}`
+  );
+  try {
+    dispatch({
+      type: PAYMETN_COLLECTION_BY_ID,
+      payload: collection.data,
+    });
+  } catch (error) {
+    console.log(error.response);
+  }
+};
+export const removePaymentCollection = (id) => async (dispatch) => {
+  try {
+    const collection = await axios.delete(
+      `${constants.localhost}/payments_collection/delete/collection/${id}`
+    );
+    dispatch({
+      type: REMOVE_PAYMENT_COLLECTION,
+      payload: collection.data,
+    });
+  } catch (error) {
+    console.log(error.response);
+  }
+};
+export const removePaymentData = () => (dispatch) => {
+  dispatch({
+    type: REMOVE_PAYMENT_DATA,
+    payload: "",
+  });
+};
+
+export const clearClientLoggedFromStore = () => (dispatch) => {
+  dispatch({
+    type: CLEAR_CLIENTLOGGED_FROM_STORE,
+  });
+};
+
+export const clientGoogleSignup = (data) => async (dispatch) => {
+  const client = await axios.post(
+    `${constants.localhost}/sign_method/client/signup/google`,
+    data
+  );
+  try {
+    window.localStorage.setItem("clientLogged", JSON.stringify(client.data));
+  } catch (error) {
+    console.log(error.response);
+  }
+};
+
+export const clientGoogleLogin = (data) => async (dispatch) => {
+  const client = await axios.post(
+    `${constants.localhost}/sign_method/client/login/google`,
+    data
+  );
+  try {
+    window.localStorage.setItem("clientLogged", JSON.stringify(client.data));
+    // dispatch({
+    //   type: CLIENT_GOOGLE_LOGIN,
+    //   payload: client.data,
+    // });
+  } catch (error) {
+    console.log(error.response);
+  }
+};
+
+export const updateClientPhoto = (id, photo) => async (dispatch) => {
+  const updatePhoto = await axios.put(
+    `${constants.localhost}/client/update/photo/${id}`,
+    photo
+  );
+  try {
+    dispatch({
+      type: UPDATE_CLIENT_PHOTO,
+      payload: updatePhoto.data,
+    });
   } catch (error) {
     console.log(error.response);
   }

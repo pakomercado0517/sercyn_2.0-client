@@ -16,12 +16,20 @@ import {
   GET_CLIENT_LOGGED,
   CLIENT_LOGOUT,
   CLIENT_DATA,
+  UPDATE_CLIENT_DATA,
   NEW_TRANSACTION,
+  UPDATE_TRANSACTION,
   PAYMENT_DATA,
   NAVIGATION_URL,
   NEW_RATING,
   NEW_USER,
   LOGIN_USER,
+  SERVICE_ORDER,
+  PAYMETN_COLLECTION_BY_ID,
+  NEW_PAYMENT,
+  REMOVE_PAYMENT_DATA,
+  CLEAR_CLIENTLOGGED_FROM_STORE,
+  UPDATE_CLIENT_PHOTO,
 } from "../actions";
 
 const initialState = {
@@ -42,6 +50,8 @@ const initialState = {
   rating: [],
   newUser: [],
   userLogged: [],
+  serviceOrder: [],
+  paymentCollection: [],
 };
 
 const rootReducer = (state = initialState, { type, payload }) => {
@@ -131,7 +141,17 @@ const rootReducer = (state = initialState, { type, payload }) => {
         ...state,
         clientData: payload,
       };
+    case UPDATE_CLIENT_DATA:
+      return {
+        ...state,
+        clientData: payload,
+      };
     case NEW_TRANSACTION:
+      return {
+        ...state,
+        transaction: payload,
+      };
+    case UPDATE_TRANSACTION:
       return {
         ...state,
         transaction: payload,
@@ -160,6 +180,36 @@ const rootReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         userLogged: payload,
+      };
+    case SERVICE_ORDER:
+      return {
+        ...state,
+        serviceOrder: payload,
+      };
+    case PAYMETN_COLLECTION_BY_ID:
+      return {
+        ...state,
+        paymentCollection: payload,
+      };
+    case NEW_PAYMENT:
+      return {
+        ...state,
+        paymentCollection: payload,
+      };
+    case REMOVE_PAYMENT_DATA:
+      return {
+        ...state,
+        paymentData: payload,
+      };
+    case CLEAR_CLIENTLOGGED_FROM_STORE:
+      return {
+        ...state,
+        clientLogged: initialState.clientLogged,
+      };
+    case UPDATE_CLIENT_PHOTO:
+      return {
+        ...state,
+        clientData: payload,
       };
     default:
       return state;

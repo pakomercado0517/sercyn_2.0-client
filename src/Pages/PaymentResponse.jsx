@@ -1,26 +1,41 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useSearchParams, useNavigate } from "react-router-dom";
-import { updatePaymentData } from "../redux/actions";
+import { updatePaymentData, updateTransaction } from "../redux/actions";
 
 function PaymentResponse() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const transaction = useSelector((state) => state.transaction);
+  const [newDataTransaction, setNewDataTransaction] = useState({
+    ...transaction,
+  });
+  const paymentData = useSelector((state) => state.paymentData);
+  const serviceOrder = useSelector((state) => state.serviceOrder);
   const [collection, setCollection] = useState();
   const [searchParams] = useSearchParams();
 
   useEffect(() => {
-    setCollection(Object.fromEntries([...searchParams]));
+    const newCollection = Object.fromEntries([...searchParams]);
+    setCollection(newCollection);
+    setNewDataTransaction({
+      ...newDataTransaction,
+      status: newCollection.status,
+    });
   }, [searchParams]);
 
   const getResponse = async (e) => {
     e.preventDefault();
     await dispatch(updatePaymentData(collection));
+    await dispatch(updateTransaction(newDataTransaction));
     await navigate("/");
     await navigate("/client_profile");
   };
 
   console.table("collection", collection);
+  console.log("paymentData", paymentData);
+  console.log("serviceOrder", serviceOrder);
+  console.log("newDataTransaction", newDataTransaction);
 
   return (
     <div>

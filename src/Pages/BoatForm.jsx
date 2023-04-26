@@ -5,14 +5,13 @@ import {
   getPaymentData,
   navigationUrl,
 } from "../redux/actions";
-import BackPageArrow from "../Components/BackPageArrow";
 import Modal from "react-modal";
 import Swal from "sweetalert2";
 import MercadoPagoButton from "../Components/MercadoPagoButton";
 import { useNavigate } from "react-router-dom";
-import Step_1 from "../Components/Step_1";
-import Step_2 from "../Components/Step_2";
-import Step_3 from "../Components/Step_3";
+import Step1 from "../Components/Step1";
+import Step2 from "../Components/Step2";
+import Step3 from "../Components/Step3";
 
 function BoatForm() {
   const [modalIsOpen, setModalIsOpen] = useState(true);
@@ -25,7 +24,7 @@ function BoatForm() {
 
   useEffect(() => {
     dispatch(getPaymentData("", ""));
-  }, [clientLogged]);
+  }, [clientLogged, dispatch]);
 
   const [items, setItems] = useState({
     title: "",
@@ -123,11 +122,16 @@ function BoatForm() {
     }
   };
 
+  const handlePaymentSubmit = async () => {
+    dispatch(getPaymentData(items, token));
+    await navigate("/payment");
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       if (token?.length > 0) {
-        dispatch(getPaymentData(items, token));
+        dispatch(newTransaction(selected, paymentData.body.id));
         // setSelected({ ...selected, preference_id: paymentData.body?.id });
         setModalIsOpen(false);
       } else {
@@ -153,7 +157,10 @@ function BoatForm() {
   };
 
   const closeModal = () => setModalIsOpen(false);
-  const openModal = () => setModalIsOpen(true);
+  const openModal = () => {
+    dispatch(getPaymentData("", ""));
+    setModalIsOpen(true);
+  };
   // const closeWelcomeModal = () => setWelcomeModalIsOpen(false)
   console.log("paymentData", paymentData);
   console.log("selected", selected);
@@ -177,7 +184,7 @@ function BoatForm() {
               >
                 <button onClick={closeModal}>X</button>
               </div>
-              <Step_1
+              <Step1
                 currentStep={selected.currentStep}
                 destination={boatById}
                 selected={selected}
@@ -185,11 +192,11 @@ function BoatForm() {
                 handleSelectClick={handleSelectClick}
                 handlePayment={handlePayment}
               />
-              <Step_2
+              <Step2
                 currentStep={selected.currentStep}
                 handleChange={handleChange}
               />
-              <Step_3
+              <Step3
                 currentStep={selected.currentStep}
                 boat={boatById}
                 handleSetPersons={handleSetPersons}
@@ -281,20 +288,32 @@ function BoatForm() {
           </li>
         </ul>
       </div>
-      {selected.priceId > 0 ? (
-        <div className={`mt-8 flex justify-center`}>
+      {/* <div className={`flex justify-center`}>
+        {paymentData.body.id ? (
           <MercadoPagoButton
             handleClick={handleClick}
             buttonText={`Proceder al Pago`}
             mp_id={paymentData.body.id}
           />
+        ) : (
+          <></>
+        )}
+      </div> */}
+      {selected.priceId > 0 ? (
+        <div className={`mt-8 flex justify-center`}>
           <button
             className={`w-32 h-8 text-white bg-blue-500 p4 rounded-md `}
             onClick={openModal}
           >
             Editar
           </button>
-          <p>{paymentData.body.id}</p>
+          <p className="hidden">{paymentData.body.id}</p>
+          <button
+            className="w-32 h-8 text-white bg-blue-500 p4 rounded-md"
+            onClick={handlePaymentSubmit}
+          >
+            Proceder a Pagar
+          </button>
         </div>
       ) : (
         <div className={`mt-8 flex justify-center`}>

@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllBoats, getBoatById, getPaging } from "../redux/actions";
 import Paginate from "../Components/Paginate";
@@ -6,32 +5,21 @@ import BoatsFilters from "../Components/BoatsFilters";
 import { useNavigate } from "react-router-dom";
 import SearchBar from "../Components/SearchBar";
 import Card from "../Components/Card";
+import { useItemsPerPage } from "../Hooks/useItemsPerPage";
 
 function Boats() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const boats = useSelector((state) => state.boats);
-  const itemsFiltered = useSelector((state) => state.itemsFiltered);
-  const page = useSelector((state) => state.page);
-  const [postPerPage] = useState(6);
-  const currentPage = page === 0 ? 1 : page;
-  const pagingNumber = async (page) => await dispatch(getPaging(page));
-  const indexOfLastItem = currentPage * postPerPage;
-  const indexOfFirstItem = indexOfLastItem - postPerPage;
-  const currentItem = itemsFiltered.length > 0 ? itemsFiltered : boats;
-  const showItems =
-    currentItem.length > 0
-      ? currentItem.slice(indexOfFirstItem, indexOfLastItem)
-      : currentItem;
+  const $boats = useSelector((state) => state.boats);
+  const pagingNumber = (page) => dispatch(getPaging(page));
+  const { showItems, currentItem, postPerPage } = useItemsPerPage({
+    item: $boats,
+    getItems: getAllBoats,
+  });
 
-  const handleClick = async (id) => {
+  const handleClickDetail = async (id) => {
     await dispatch(getBoatById(id));
     navigate("/boats/details");
-  };
-
-  const handleFormClick = async (id) => {
-    await dispatch(getBoatById(id));
-    navigate("/form/boat");
   };
 
   const handleOnSelected = (item) => {
@@ -39,36 +27,11 @@ function Boats() {
     navigate("/boats/details");
   };
 
-  useEffect(() => {
-    dispatch(getAllBoats());
-  }, [dispatch]);
-
-  // useEffect(() => {
-  //   const getAccess = async () => {
-  //     if (token?.length > 0) {
-  //       await dispatch(getAllBoats(token));
-  //     } else {
-  //       Swal.fire({
-  //         title: "Advertencia",
-  //         text: "Por favor inicia sesión para continuar",
-  //         confirmButtonText: "Iniciar sesión",
-  //         icon: "warning",
-  //       }).then((response) => {
-  //         navigate("/login");
-  //       });
-  //     }
-  //   };
-  //   console.log("token", token);
-
-  //   getAccess();
-  // }, [dispatch, token]);
-
-  console.log("currentItem", currentItem);
-
   return (
     <div>
-      <div className={`flex justify-center`}>
+      <div className={`flex justify-center items-center`}>
         <SearchBar items={currentItem} ishandleOnSelected={handleOnSelected} />
+        <BoatsFilters />
       </div>
 
       <div className={`flex justify-center`}>
@@ -79,11 +42,9 @@ function Boats() {
         />
       </div>
 
-      <div className={`flex justify-center`}>
-        <BoatsFilters />
-      </div>
+      <div className={`flex justify-center`}></div>
 
-      <div className={`flex flex-col items-center md:flex-row justify-center`}>
+      <div className={`flex flex-col justify-evenly items-center md:flex-row`}>
         {showItems.length > 0 ? (
           showItems.map((el) => {
             let boats;
@@ -95,7 +56,7 @@ function Boats() {
                 photo={boats.photo}
                 name={boats.name}
                 qualification={boats.Ratings[0]?.qualification}
-                handleClickDetail={handleClick}
+                handleClickDetail={handleClickDetail}
                 buttonText="Ver detalles"
               />
             );

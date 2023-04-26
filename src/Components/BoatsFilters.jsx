@@ -61,39 +61,59 @@ function Filters() {
             value={getDestination}
             onChange={handleDestinationChange}
           >
-            <option value="">Selecciona un Destino</option>
-            <option value="">Todos...</option>
+            <option className="text-[#064273]" value="">
+              Selecciona un Destino
+            </option>
+            <option className="text-[#064273]" value="">
+              Todos...
+            </option>
             {destinations.map((el) => {
               return (
-                <option key={el.id} value={el.name}>
+                <option key={el.id} value={el.name} className="text-[#064273]">
                   {el.name}
                 </option>
               );
             })}
           </select>
         </div>
-        <div className={`border border-slate-500 rounded-lg my-1 p-1 md:mx-2`}>
+        <div className={`border border-[#064273] rounded-lg my-1 p-1 md:mx-2`}>
           <select
             name="orderByName"
             id="orderByName"
             onChange={handleNameChange}
           >
-            <option value="">Filtrar por nombres:</option>
-            <option value="">Deshacer cambios...</option>
-            <option value="asc">A - Z</option>
-            <option value="desc">Z - A</option>
+            <option className="text-[#064273]" value="">
+              Filtrar por nombres:
+            </option>
+            <option className="text-[#064273]" value="">
+              Deshacer cambios...
+            </option>
+            <option className="text-[#064273]" value="asc">
+              A - Z
+            </option>
+            <option className="text-[#064273]" value="desc">
+              Z - A
+            </option>
           </select>
         </div>
-        <div className={`border border-slate-500 rounded-lg my-1 p-1 md:mx-2`}>
+        <div className={`border border-[#064273] rounded-lg my-1 p-1 md:mx-2`}>
           <select
             name="orderByPrice"
             id="orderByPrice"
             onChange={handlePriceChange}
           >
-            <option value="">Filtrar por Precios</option>
-            <option value="">Deshacer cambios...</option>
-            <option value="asc">Menor Precio</option>
-            <option value="desc">Mayor Precio</option>
+            <option className="text-[#064273]" value="">
+              Filtrar por Precios
+            </option>
+            <option className="text-[#064273]" value="">
+              Deshacer cambios...
+            </option>
+            <option className="text-[#064273]" value="asc">
+              Menor Precio
+            </option>
+            <option className="text-[#064273]" value="desc">
+              Mayor Precio
+            </option>
           </select>
         </div>
       </form>

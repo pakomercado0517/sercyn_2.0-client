@@ -41,7 +41,7 @@ function SearchBar({ items, ishandleOnSelected }) {
 
   return (
     <div>
-      <div className={`w-[80vw] my-3`}>
+      <div className={`w-[18vw] my-3`}>
         <ReactSearchAutocomplete
           items={items}
           onSearch={handleOnSearch}

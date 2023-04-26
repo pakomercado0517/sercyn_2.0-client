@@ -1,37 +1,26 @@
-import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllDestinations, getDestinationById } from "../redux/actions";
+import {
+  getAllDestinations,
+  getDestinationById,
+  getPaging,
+} from "../redux/actions";
 import Paginate from "../Components/Paginate";
 import Card from "../Components/Card";
 import SearchBar from "../Components/SearchBar";
+import { useItemsPerPage } from "../Hooks/useItemsPerPage";
 
 function Destinations() {
   const dispatch = useDispatch();
   const destinations = useSelector((state) => state.destinations);
-  const destinationById = useSelector((state) => state.destinationById);
-  const itemsFiltered = useSelector((state) => state.itemsFiltered);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [postPerPage] = useState(4);
-  const paging = (page) => setCurrentPage(page);
-  const indexOfLastItem = currentPage * postPerPage;
-  const indexOfFirstItem = indexOfLastItem - postPerPage;
-  const currentItem = itemsFiltered.length > 0 ? itemsFiltered : destinations;
-  const showItems =
-    currentItem.length > 0
-      ? currentItem.slice(indexOfFirstItem, indexOfLastItem)
-      : currentItem;
-
-  useEffect(() => {
-    dispatch(getAllDestinations());
-  }, [dispatch]);
+  const paging = (page) => dispatch(getPaging(page));
+  const { showItems, currentItem, postPerPage } = useItemsPerPage({
+    item: destinations,
+    getItems: getAllDestinations,
+  });
 
   const handleOnSelected = (item) => {
     dispatch(getDestinationById(item.id));
   };
-
-  console.log("destinationById", destinationById);
-  console.log("currentItem", currentItem);
-  console.log("currentItem.length", currentItem.length);
 
   return (
     <div>
@@ -45,7 +34,7 @@ function Destinations() {
           paging={paging}
         />
       </div>
-      <div className={`flex flex-col items-center md:flex-row justify-center`}>
+      <div className={`flex flex-col items-center md:flex-row justify-evenly`}>
         {showItems.length > 0 ? (
           showItems.map((el) => {
             return (

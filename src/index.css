@@ -1,45 +1,14 @@
+@import url("https://fonts.googleapis.com/css2?family=Cairo&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import url("https://fonts.googleapis.com/css2?family=Cairo&display=swap");
+
+/* colors predefined */
+/* #064273
+#1da2d8
+#eccca2 */
 
 body {
   margin: 0;
-  font-family: "Cairo", sans-serif;
-  /* background-image: url("https://firebasestorage.googleapis.com/v0/b/sercyn-22d2f.appspot.com/o/web-images%2Fosman-rana-Oi1fJwi35oI-unsplash.jpeg?alt=media&token=d7b10f32-53a7-4c61-ae6a-8c5e2d5a28ea");
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-size: cover;
-  background-color: rgba(255, 255, 255, 0.8);
-  background-blend-mode: color-dodge; */
-  /* color: #636363; */
-  /* background: #00d2ff;
-  background: -webkit-linear-gradient(
-    to right,
-    #3a7bd5,
-    #00d2ff
-  );
-  background: linear-gradient(
-    to right,
-    #3a7bd5,
-    #00d2ff
-  );  */
-
-  /* background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' version='1.1' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:svgjs='http://svgjs.com/svgjs' width='1440' height='560' preserveAspectRatio='none' viewBox='0 0 1440 560'%3e%3cg mask='url(%26quot%3b%23SvgjsMask1096%26quot%3b)' fill='none'%3e%3crect width='1440' height='560' x='0' y='0' fill='url(%23SvgjsLinearGradient1097)'%3e%3c/rect%3e%3cpath d='M1440 0L721.07 0L1440 148.54z' fill='rgba(255%2c 255%2c 255%2c .1)'%3e%3c/path%3e%3cpath d='M721.07 0L1440 148.54L1440 327.61L372.27000000000004 0z' fill='rgba(255%2c 255%2c 255%2c .075)'%3e%3c/path%3e%3cpath d='M372.27 0L1440 327.61L1440 449.09000000000003L170.57999999999998 0z' fill='rgba(255%2c 255%2c 255%2c .05)'%3e%3c/path%3e%3cpath d='M170.57999999999993 0L1440 449.09000000000003L1440 466.67L89.48999999999992 0z' fill='rgba(255%2c 255%2c 255%2c .025)'%3e%3c/path%3e%3cpath d='M0 560L415.87 560L0 327.63z' fill='rgba(0%2c 0%2c 0%2c .1)'%3e%3c/path%3e%3cpath d='M0 327.63L415.87 560L888.89 560L0 240.06z' fill='rgba(0%2c 0%2c 0%2c .075)'%3e%3c/path%3e%3cpath d='M0 240.06L888.89 560L1110.43 560L0 108.78999999999999z' fill='rgba(0%2c 0%2c 0%2c .05)'%3e%3c/path%3e%3cpath d='M0 108.78999999999996L1110.43 560L1273.0700000000002 560L0 91.55999999999996z' fill='rgba(0%2c 0%2c 0%2c .025)'%3e%3c/path%3e%3c/g%3e%3cdefs%3e%3cmask id='SvgjsMask1096'%3e%3crect width='1440' height='560' fill='white'%3e%3c/rect%3e%3c/mask%3e%3clinearGradient x1='50%25' y1='0%25' x2='50%25' y2='100%25' gradientUnits='userSpaceOnUse' id='SvgjsLinearGradient1097'%3e%3cstop stop-color='%230e2a47' offset='0'%3e%3c/stop%3e%3cstop stop-color='rgba(0%2c 105%2c 241%2c 1)' offset='1'%3e%3c/stop%3e%3c/linearGradient%3e%3c/defs%3e%3c/svg%3e"); */
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
-}
-
-@media screen and (max-width: 420px) {
-  body {
-    background-position: -268px 100px;
-  }
-}
-@media screen and (min-width: 450px) {
-  body {
-    background-position: -168px 100px;
-  }
+  font-family: 'Cairo',  sans-serif;
 }

@@ -32,9 +32,9 @@ function Step_1({
             {destination.Prices.map((el) => {
               return (
                 <div
-                  className={`w-11/12 h-[12vh] border border-slate-400 text-center my-3 rounded-lg flex flex-col justify-around items-center ${
+                  className={`w-11/12 h-[12vh] border border-slate-400 text-center my-3 rounded-lg flex flex-col justify-evenly items-center ${
                     selected.priceId === el.id ? "bg-[#007ea7] text-white" : ""
-                  } md:w-[35vw] md:mx-2`}
+                  } md:w-[19vw] md:mx-2 lg:w-[15vw]`}
                   key={el.id}
                   onClick={() => {
                     handleSelectClick(el.id, el.price);

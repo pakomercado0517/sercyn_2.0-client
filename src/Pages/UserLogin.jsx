@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { loginUser, navigationUrl } from "../redux/actions";
+import { loginUser } from "../redux/actions";
 import Swal from "sweetalert2";
 
 export function validate(loginData) {

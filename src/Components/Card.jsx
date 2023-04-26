@@ -1,8 +1,9 @@
 import React from "react";
 import ReactStars from "react-rating-stars-component";
-import s from "./Styles/Card.module.css";
+// import { Link } from "react-router-dom";
+// import s from "./Styles/Card.module.css";
 
-function Card({
+function BoatCard({
   id,
   photo,
   name,
@@ -14,7 +15,41 @@ function Card({
 }) {
   return (
     <>
-      <div
+      {/* New style fot card */}
+
+      <div className="py-6">
+        <div className="flex max-w-md bg-white shadow-lg rounded-lg overflow-hidden">
+          <div
+            className="w-1/3 bg-cover"
+            style={{
+              backgroundImage: `url(${photo})`,
+            }}
+          ></div>
+          <div className="w-2/3 p-4">
+            <h1 className="text-[#064273] font-bold text-2xl">{name}</h1>
+            <p className="mt-2 text-gray-600 text-sm">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit In odit
+              exercitationem fuga id nam quia
+            </p>
+            {/* Stars here... */}
+            <ReactStars size={18} value={qualification} activeColor="#1da2d8" />
+            <div className="flex item-center justify-between mt-3">
+              <h1 className="text-[#064273] font-bold text-xl">
+                <span className="text-xs text-[#064273]">Desde </span>
+                $220
+              </h1>
+              <button
+                onClick={() => handleClickDetail(id)}
+                className="px-3 py-2 bg-[#f2d2a9] hover:bg-[#e1bf92] text-white text-xs font-bold uppercase rounded"
+              >
+                Ver Detalles
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* <div
         className={`w-[70vw] h-[48vh] my-3 border border-slate-400 rounded-2xl bg-white bg-opacity-70 flex flex-col items-center shadow-xl shadow-sky-400 md:w-[30vw] md:h-[42vh] md:mx-1 lg:w-[18vw] lg:h-[55vh]`}
       >
         <div>
@@ -35,9 +70,9 @@ function Card({
             {`${buttonText}`}
           </h3>
         </div>
-      </div>
+      </div> */}
     </>
   );
 }
 
-export default Card;
+export default BoatCard;

@@ -2,15 +2,17 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "./Images/logo_sercyn2.png";
-import { clientLogout } from "../redux/actions";
+import { clientLogout, clearClientLoggedFromStore } from "../redux/actions";
 import Swal from "sweetalert2";
 
 function Navbar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const clientLogged = useSelector((state) => state.clientLogged);
-  const handleClick = async () => {
-    dispatch(clientLogout());
+
+  const handleLogout = async () => {
+    await dispatch(clientLogout());
+    await dispatch(clearClientLoggedFromStore());
     await Swal.fire({
       title: `Cerraste Sesión!`,
       text: "Vuelve pronto",
@@ -22,8 +24,6 @@ function Navbar() {
       }
     });
   };
-
-  console.log("clientLogged", clientLogged);
 
   return (
     <div>
@@ -42,9 +42,9 @@ function Navbar() {
         <div className={`w-screen flex flex-row`}>
           <div className={`flex flex-row`}>
             <div className="w-[80vw] mr-3 z-10 bg-white flex items-center justify-end">
-              <ul className={`flex flex-row text-xs md:text-lg text-slate-500`}>
+              <ul className={`flex flex-row text-xs md:text-lg text-[#63b9db]`}>
                 <Link to="/">
-                  <li className={`pl-2 mx-2`}>Inicio</li>
+                  <li className={`pl-2 mx-2 `}>Inicio</li>
                 </Link>
                 <Link to="/boats">
                   <li className={`pl-2 mx-2`}>Embarcaciones</li>
@@ -52,17 +52,25 @@ function Navbar() {
                 <Link to="/destinations">
                   <li className={`pl-2 mx-2`}>Destinos</li>
                 </Link>
-                {clientLogged.length === 0 ? (
-                  <Link to="/signin">
-                    <li className={`pl-2 mx-2`}>SignIn</li>
-                  </Link>
+                {!clientLogged?.token ? (
+                  <>
+                    <Link to="/signin">
+                      <li className={`pl-2 mx-2`}>Crea una cuenta</li>
+                    </Link>
+                    <Link to="/login">
+                      <li className={`pl-2 mx-2`}>Inicia Sesión </li>
+                    </Link>
+                  </>
                 ) : (
                   <>
                     <Link to="/client_profile">
                       <li className={`pl-2 mx-2`}>Mi perfil</li>
                     </Link>
-                    <li onClick={handleClick} className={`pl-2 mx-2`}>
-                      Logout
+                    <li
+                      onClick={handleLogout}
+                      className={`pl-2 mx-2 cursor-pointer`}
+                    >
+                      Cerrar Sesión
                     </li>
                   </>
                 )}

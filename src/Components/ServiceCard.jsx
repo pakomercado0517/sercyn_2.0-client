@@ -29,7 +29,7 @@ function ServiceCard({
       className={`flex flex-col items-center w-11/12 text-lg text-center text-slate-400  p-4 rounded-[20px] ${s.card}`}
     >
       <img
-        className={`w-20 h-18 md:w-[100px] md:h-[110px] mb-3`}
+        className={`w-16 h-auto md:w-24 md:h-auto mb-3`}
         src={company_logo}
         alt={company_name}
       />
@@ -58,12 +58,14 @@ function ServiceCard({
         </button>
       ) : status === " finished" ? (
         <></>
-      ) : status === "pending to pay" || status === "rejected" ? (
+      ) : status === "pending to pay" ||
+        status === "rejected" ||
+        status === null ? (
         <MercadoPagoButton buttonText={`Pagar`} mp_id={service_id} />
       ) : (
         <></>
       )}
-      <p>{service_id}</p>
+      <p className="hidden">{service_id}</p>
     </div>
   );
 }
